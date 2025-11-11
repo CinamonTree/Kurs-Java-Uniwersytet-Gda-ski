@@ -26,20 +26,15 @@ public class Stock {
 
     @Override
     public boolean equals(Object other) {
-        // gdy wskazują na ten sam obiekt zwróć true
-        if (this == other) return true;
-        // gdy przekazano null zwróć false
-        if (other == null) return false;
-        // gdy przekazano obiekt który nie jest instancją Stock zwróć false
-        if (!(other instanceof Stock)) return false;
+        if (this == other) return true; // gdy wskazują na ten sam obiekt zwróć true
+        if (other == null) return false; // gdy przekazano null zwróć false
+        if (!(other instanceof Stock)) return false; // gdy przekazano obiekt który nie jest instancją Stock zwróć false
 
-        // rzutowanie aby dostać dostęp do pól i metod
-        Stock otherAsStock = (Stock) other;
-        // jeżeli code tego obiektu jest null sprawdź czy drugiego też
-        // a jeżeli nie to porównaj stringi z equals
-        if (this.code == null) {
+        Stock otherAsStock = (Stock) other; // rzutowanie aby dostać dostęp do pól i metod
+        
+        if (this.code == null) { // jeżeli code tego obiektu jest null sprawdź czy drugiego też
             return otherAsStock.code == null;
-        } else {
+        } else { // a jeżeli nie to porównaj stringi z equals
             return code.equals(otherAsStock.code);
         }
     }
