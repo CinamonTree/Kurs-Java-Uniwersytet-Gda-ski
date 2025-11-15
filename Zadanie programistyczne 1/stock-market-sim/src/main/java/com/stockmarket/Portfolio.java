@@ -11,11 +11,23 @@ public class Portfolio {
         private int quantity;
 
         public StockHolding(Stock stock, int quantity) {
+            validateStock(stock);
+            validateQuantity(quantity);
             this.stock = stock;
             this.quantity = quantity;
         }
 
-        //TODO: dodać weryfikację parametrów konstruktora
+        private void validateQuantity(int quantity) {
+            if (quantity < 0) {
+                throw new IllegalArgumentException("Ilość posiadanych akcji nie może być ujemna");
+            }
+        }
+
+        private void validateStock(Stock stock) {
+            if (stock == null) {
+                throw new IllegalArgumentException("Podano argument null dla parametru konstruktora obiektu.");
+            }
+        }
     }
 
     public Portfolio(double initialCash) {
