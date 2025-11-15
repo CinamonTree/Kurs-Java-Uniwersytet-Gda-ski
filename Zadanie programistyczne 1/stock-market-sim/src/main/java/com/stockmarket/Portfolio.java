@@ -14,6 +14,8 @@ public class Portfolio {
             this.stock = stock;
             this.quantity = quantity;
         }
+
+        //TODO: dodać weryfikację parametrów konstruktora
     }
 
     public Portfolio(double initialCash) {
@@ -23,17 +25,15 @@ public class Portfolio {
     }
 
     public void addStock(Stock stock, int quantity) {
-        for (StockHolding holding : this.holdings) {
-            if (holding != null && holding.stock.equals(stock)) {
-                holding.quantity += quantity;
-                return;
-            }
-        }
+        StockHolding stockHolding = findStockHolding(stock);
+        boolean isStockFound = stockHolding != null;
 
-        if (this.holdingsCount < this.holdings.length) {
-            this.holdings[this.holdingsCount++] = new StockHolding(stock, quantity);
+        if (isStockFound) {
+            stockHolding.quantity += quantity;
+        } else if (!isHoldingsWalletFull()) {
+            addNewStockHolding(stock, quantity);
         } else {
-            System.out.println("UWAGA! Pełen portfel.");
+            System.err.println("UWAGA! Pełen portfel.");
         }
     }
 
@@ -66,5 +66,23 @@ public class Portfolio {
             }
         }
         return 0;
+    }
+
+    private boolean isHoldingsWalletFull() {
+        return this.holdingsCount >= this.holdings.length;
+    }
+
+    private StockHolding findStockHolding(Stock stockToFind) {
+        for (int i = 0; i < holdings.length; i++) {
+            if (holdings[i] != null && holdings[i].stock.equals(stockToFind)) {
+                return holdings[i];
+            }
+        }
+        return null;
+    }
+
+    private void addNewStockHolding(Stock stock, int quantity) {
+        this.holdings[this.holdingsCount] = new StockHolding(stock, quantity);
+        this.holdingsCount++;
     }
 }
